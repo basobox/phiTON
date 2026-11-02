@@ -1,6 +1,6 @@
 # NOTES
 
-## LiveCode P0
+## LiveCode P0 2026-11-02
 https://github.com/FTDS-Assignment-Bay-2/P0-LC1-Set-2-FTDS-047-HCK-basobox
 
 https://pynative.com/python-functions-exercise-with-solutions/
