@@ -55,6 +55,34 @@ https://www.kode.id/courses/take/full-time-data-analytics-phase-0/pdfs/46908449-
 ------------------------------------------------------------------------------------------------
 
 
+python
+# 1. Mendefinisikan class 'Orang'
+class Orang:
+
+  # Konstruktor untuk menginisialisasi atribut (properti)
+  def __init__(self, nama, usia):
+    self.nama = nama  # Atribut nama
+    self.usia = usia  # Atribut usia
+
+  # Metode (fungsi) untuk perilaku objek
+  def perkenalan(self):
+    print(
+        f"Halo, nama saya {self.nama} dan saya berusia {self.usia} tahun."
+    )
+
+
+# 2. Membuat objek (instansiasi) dari class 'Orang'
+orang1 = Orang("Budi", 25)
+orang2 = Orang("Ani", 22)
+
+# 3. Mengakses atribut dan memanggil metode
+print(orang1.nama)  # Output: Budi
+orang1.perkenalan()  # Output: Halo, nama saya Budi dan saya berusia 25 tahun.
+
+orang2.perkenalan()  # Output: Halo, nama saya Ani dan saya berusia 22 tahun.
+
+
+
 
 
 
