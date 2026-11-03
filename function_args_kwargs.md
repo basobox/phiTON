@@ -547,3 +547,130 @@ Sebelum live coding, ulangi latihan berikut tanpa melihat kode solusi:
 **Strategi utama:** Pahami → Lengkapi → Tulis ulang → Terapkan. Jangan
 hanya membaca kode yang benar. Kemampuan live coding dibangun dengan
 menulis sendiri, menjalankan, membaca error, dan memperbaikinya.
+
+--------------------------------------------------------------
+
+# Rangkuman Pembelajaran: Object-Oriented Programming (OOP) di Python
+
+Dokumen ini berisi rangkuman pembelajaran mengenai dasar pembuatan kelas, objek, metode, hingga penggabungan konsep Alur Program (Flowchart), Kondisional (Conditional), dan Perulangan (Loop) di Python.
+
+---
+
+## 1. Konsep Dasar Kelas dan Objek Statis
+
+Konsep paling dasar dalam OOP adalah membuat sebuah cetak biru (**Class**) dan melahirkan wujud nyatanya (**Object**).
+
+```python
+# Mendefinisikan kelas Orang
+class Orang:
+    # Konstruktor untuk inisialisasi atribut (nama dan umur)
+    def __init__(self, nama, umur):
+        self.nama = nama
+        self.umur = umur
+
+    # Method perkenalan() menggunakan Python Function
+    def perkenalan(self):
+        print(f"Halo Python, nama saya {self.nama} dan sekarang saya berusia {self.umur} tahun.")
+
+# Membuat objek statis langsung dari cetakan kelas
+orang1 = Orang("Ani", 32)
+orang2 = Orang("Budi", 42)
+
+# Mengakses atribut objek
+print(orang1.nama)    # Output: Ani
+print(orang1.umur)    # Output: 32
+
+# Memanggil method objek
+orang2.perkenalan()   # Output: Halo Python, nama saya Budi dan sekarang saya berusia 42 tahun.
+```
+
+---
+
+## 2. Praktik Terbaik Penulisan Kode (Best Practices & Clean Code)
+
+Dari revisi kode sebelumnya, ada beberapa aturan penting berdasarkan standar **PEP 8** agar kode Python lebih efisien dan rapi:
+* **Spasi setelah koma:** Gunakan spasi setelah tanda koma saat memasukkan argumen objek, contoh: `Orang("Ani", 32)` (Lebih disarankan daripada tanpa spasi).
+* **Efisiensi Input Dinamis:** Jangan membuat objek kosong berulang kali hanya untuk menimpa nilainya (`Orang("", 0)`). Tampung input dari *user* ke dalam variabel terlebih dahulu, kemudian langsung masukkan variabel tersebut saat instansiasi objek baru.
+
+---
+
+## 3. Implementasi Kode Gabungan (Class, Function, Conditional, & Loop)
+
+Berikut adalah kode final yang menggabungkan seluruh materi: pembuatan **Class & Method**, pemanfaatan **Python Loop** untuk input dinamis, dan penggunaan **Python Conditional** untuk memproses logika umur.
+
+```python
+# ==========================================
+# A. MEMBUAT CLASS & METHOD (FUNCTION)
+# ==========================================
+class Orang:
+    def __init__(self, nama, umur):
+        self.nama = nama
+        self.umur = umur
+
+    # Method menggunakan Python Function
+    def perkenalan(self):
+        print(f"\nHalo Python, nama saya {self.nama} dan sekarang saya berusia {self.umur} tahun.")
+        
+        # Menerapkan PYTHON CONDITIONAL (Percabangan)
+        if self.umur < 18:
+            print(f"Status Kategori: {self.nama} masih Kategori Anak-anak/Remaja.")
+        elif self.umur <= 50:
+            print(f"Status Kategori: {self.nama} masuk Kategori Dewasa Produktif.")
+        else:
+            print(f"Status Kategori: {self.nama} masuk Kategori Lansia.")
+
+# ==========================================
+# B. MENERAPKAN PYTHON LOOP (Perulangan)
+# ==========================================
+daftar_orang = [] # List penampung objek
+
+print("=== PROGRAM INPUT DATA ORANG ===")
+jumlah_data = int(input("Berapa data orang yang ingin dimasukkan? : "))
+
+# Loop pertama: Mengambil input dinamis dan membuat Object
+for i in range(jumlah_data):
+    print(f"\n--- Menginput Data Orang ke-{i+1} ---")
+    nama_input = input("Masukkan Nama : ")
+    umur_input = int(input("Masukkan Umur : "))
+    
+    # Membuat objek baru menggunakan Class Orang
+    objek_orang_baru = Orang(nama_input, umur_input)
+    
+    # Menyimpan objek ke dalam list
+    daftar_orang.append(objek_orang_baru)
+
+# ==========================================
+# C. OUTPUT PROGRAM
+# ==========================================
+print("\n" + "="*30)
+print("HASIL OUTPUT PERKENALAN OBJEK:")
+print("="*30)
+
+# Loop kedua: Menampilkan method dari setiap objek yang tersimpan
+for orang in daftar_orang:
+    orang.perkenalan()
+```
+
+---
+
+## 4. Logika Alur Program (Flowchart Deskriptif)
+
+Gunakan panduan urutan berikut untuk menggambarkan diagram alur program (*flowchart*):
+
+1. **[Terminator: Start]** $\rightarrow$ Program dimulai.
+2. **[Proses]** $\rightarrow$ Inisialisasi wadah penampung berupa list kosong bernama `daftar_orang`.
+3. **[Input/Output]** $\rightarrow$ Membaca input total perulangan dari user (`jumlah_data`).
+4. **[Decision / Loop 1]** $\rightarrow$ Perulangan `For Loop` berjalan sebanyak jumlah data yang diminta.
+   * *Jika Selesai (False):* Lompat ke **Langkah 8** (Loop 2).
+   * *Jika Berjalan (True):* Masuk ke **Langkah 5**.
+5. **[Input/Output]** $\rightarrow$ User memasukkan teks nama dan angka umur.
+6. **[Proses / Pembuatan Objek]** $\rightarrow$ Menginisialisasi objek baru lewat `Class Orang(nama, umur)`.
+7. **[Proses]** $\rightarrow$ Menambahkan objek ke dalam list (`append`). Alur panah kembali mengarah ke **Langkah 4**.
+8. **[Decision / Loop 2]** $\rightarrow$ Perulangan untuk mengecek setiap objek yang tersimpan di dalam list `daftar_orang`.
+   * *Jika Selesai (False):* Program selesai menuju **[Terminator: End]**.
+   * *Jika Berjalan (True):* Masuk ke **Langkah 9**.
+9. **[Panggilan Method + Conditional]** $\rightarrow$ Menjalankan fungsi `orang.perkenalan()`. Di dalam proses ini terjadi percabangan umur:
+   * **Apakah Umur < 18?** (Ya $\rightarrow$ Cetak Status Remaja) / (Tidak $\rightarrow$ Lanjut cek kondisi berikutnya).
+   * **Apakah Umur <= 50?** (Ya $\rightarrow$ Cetak Status Dewasa) / (Tidak $\rightarrow$ Cetak Status Lansia).
+10. **[Garis Alur]** $\rightarrow$ Alur panah kembali mengarah ke perulangan **Langkah 8** sampai data habis.
+
