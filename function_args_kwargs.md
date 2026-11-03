@@ -674,3 +674,50 @@ Gunakan panduan urutan berikut untuk menggambarkan diagram alur program (*flowch
    * **Apakah Umur <= 50?** (Ya $\rightarrow$ Cetak Status Dewasa) / (Tidak $\rightarrow$ Cetak Status Lansia).
 10. **[Garis Alur]** $\rightarrow$ Alur panah kembali mengarah ke perulangan **Langkah 8** sampai data habis.
 
+
+
+
+```python
+# bikin class dulu buat template data orang
+class OrangData:
+    def __init__(self, name, age):
+        self.nama = name
+        self.umur = age
+
+    # fungsi buat ngeprint perkenalan + cek kategori umur
+    def kenalan(self):
+        print(f"\nHalo Python, nama saya {self.nama} dan sekarang saya berusia {self.umur} tahun.")
+        
+        # logic conditional buat nentuin kategori
+        if self.umur < 18:
+            print(f"Status Kategori: {self.nama} masih bocah/remaja.")
+        elif self.umur <= 50:
+            print(f"Status Kategori: {self.nama} udah dewasa produktif.")
+        else:
+            print(f"Status Kategori: {self.nama} masuk lansia.")
+
+# list kosong buat nampung datanya ntar
+list_orang = []
+
+print("=== PROGRAM INPUT DATA ORANG ===")
+# input total data yg mau di-loop
+n = int(input("Berapa data orang yang ingin dimasukkan? : "))
+
+# looping buat ambil input dari user secara dinamis
+for i in range(n):
+    print(f"\n--- Data Orang ke-{i+1} ---")
+    in_nama = input("Masukkan Nama : ")
+    in_umur = int(input("Masukkan Umur : "))
+    
+    # instansiasi objek baru langsung dimasukin ke list
+    p = OrangData(in_nama, in_umur)
+    list_orang.append(p)
+
+print("\n==============================")
+print("HASIL OUTPUT PERKENALAN OBJEK:")
+print("==============================")
+
+# loop terakhir buat nampilin semua method kenalan
+for orang in list_orang:
+    orang.kenalan()
+```
