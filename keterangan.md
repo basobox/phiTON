@@ -1133,3 +1133,131 @@ df['Kota'] = df['Kota'].str.strip()
 print("--- Data Setelah Dibersihkan ---")
 print(df)
 ```
+
+
+
+=====
+
+
+# Panduan Lengkap Penggunaan Subquery di SQL (Dengan Output)
+
+Dokumen ini menjelaskan konsep, jenis, contoh penerapan, serta **hasil (output)** dari penggunaan **Subquery** (Query di dalam Query) pada database SQL.
+
+---
+
+## 1. Persiapan Data Dummy
+
+Untuk mempermudah pemahaman, kita akan menggunakan dua tabel referensi berikut: `departemen` dan `karyawan`.
+
+### Tabel: `departemen`
+
+| id_dept | nama_dept | kota |
+| :--- | :--- | :--- |
+| 1 | IT | Jakarta |
+| 2 | HRD | Bandung |
+| 3 | Marketing | Jakarta |
+
+### Tabel: `karyawan`
+
+| id_karyawan | nama | id_dept | gaji |
+| :--- | :--- | :--- | :--- |
+| 101 | Andi | 1 | 9000000 |
+| 102 | Budi | 1 | 12000000 |
+| 103 | Cici | 2 | 7000000 |
+| 104 | Dodi | 3 | 8500000 |
+| 105 | Eka | 2 | 6500000 |
+
+---
+
+## 2. Jenis Subquery, Contoh Kode, & Output
+
+### A. Scalar Subquery (Hasil Nilai Tunggal)
+Subquery ini hanya menghasilkan **satu nilai (satu baris dan satu kolom)**. Biasanya dipadukan dengan operator seperti `=`, `>`, `<`, atau `!=`.
+
+**Kasus:** Menampilkan karyawan yang gajinya **di atas rata-rata** gaji seluruh karyawan (Rata-rata gaji dari data di atas adalah `8.600.000`).
+
+```sql
+SELECT nama, gaji 
+FROM karyawan
+WHERE gaji > (SELECT AVG(gaji) FROM karyawan);
+```
+
+#### 📊 Output:
+
+| nama | gaji |
+| :--- | :--- |
+| Andi | 9000000 |
+| Budi | 12000000 |
+
+*Keterangan: Andi dan Budi masuk ke dalam output karena gaji mereka berdua di atas 8.600.000.*
+
+---
+
+### B. Multiple-Row Subquery (Hasil Banyak Baris)
+Subquery ini menghasilkan **satu kolom tetapi berisi beberapa baris nilai**. Digunakan bersama operator pencocokan massal seperti `IN`, `ANY`, atau `ALL`.
+
+**Kasus:** Menampilkan semua karyawan yang bekerja di departemen yang **berlokasi di Jakarta** (Subquery mendeteksi id_dept `1` dan `3`).
+
+```sql
+SELECT nama, id_dept 
+FROM karyawan
+WHERE id_dept IN (SELECT id_dept FROM departemen WHERE kota = 'Jakarta');
+```
+
+#### 📊 Output:
+
+| nama | id_dept |
+| :--- | :--- |
+| Andi | 1 |
+| Budi | 1 |
+| Dodi | 3 |
+
+*Keterangan: Cici dan Eka tidak muncul karena departemen mereka (HRD) berada di Bandung.*
+
+---
+
+### C. Subquery di dalam Klausa FROM (Inline View)
+Subquery ini bertindak sebagai **tabel bayangan/sementara** yang hasilnya bisa kita kueri kembali di query utama. Wajib menggunakan nama alias (misal: `AS tabel_sementara`).
+
+**Kasus:** Menghitung selisih gaji setiap karyawan di departemen IT (id_dept = 1) dengan rata-rata gaji khusus departemen IT itu sendiri (`10.500.000`).
+
+```sql
+SELECT k.nama, k.gaji, rata_rata.gaji_it, (k.gaji - rata_rata.gaji_it) AS selisih
+FROM karyawan k,
+     (SELECT AVG(gaji) AS gaji_it FROM karyawan WHERE id_dept = 1) AS rata_rata
+WHERE k.id_dept = 1;
+```
+
+#### 📊 Output:
+
+| nama | gaji | gaji_it | selisih |
+| :--- | :--- | :--- | :--- |
+| Andi | 9000000 | 10500000 | -1500000 |
+| Budi | 12000000 | 10500000 | 1500000 |
+
+---
+
+### D. Correlated Subquery (Subquery Saling Terkait)
+Subquery yang nilai di dalamnya **bergantung langsung pada kolom di query utama**. Proses pencariannya berjalan baris demi baris secara dinamis.
+
+**Kasus:** Menampilkan karyawan yang gajinya **lebih tinggi dari rata-rata gaji di departemen tempat dia bekerja sendiri**.
+
+```sql
+SELECT k1.nama, k1.id_dept, k1.gaji
+FROM karyawan k1
+WHERE k1.gaji > (SELECT AVG(k2.gaji) 
+                 FROM karyawan k2 
+                 WHERE k2.id_dept = k1.id_dept);
+```
+
+#### 📊 Output:
+
+| nama | id_dept | gaji |
+| :--- | :--- | :--- |
+| Budi | 1 | 12000000 |
+| Cici | 2 | 7000000 |
+
+*Keterangan:*
+- *Di Dept 1 (IT), rata-ratanya 10,5jt $\rightarrow$ Budi (12jt) masuk.*
+- *Di Dept 2 (HRD), rata-ratanya 6,75jt $\rightarrow$ Cici (7jt) masuk.*
+- *Di Dept 3 (Marketing), hanya ada Dodi sendirian, sehingga gajinya sama dengan rata-rata (tidak lebih besar) $\rightarrow$ Dodi tidak masuk.*
