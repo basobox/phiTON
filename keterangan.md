@@ -1,9 +1,9 @@
-# Rangkuman LC2 --- Phase 0 Week 2 Day 3 PM
 
-## Relational Database and Queries: Google BigQuery
+
+Relational Database and Queries: Google BigQuery
 
 Dokumen ini merangkum materi BigQuery dan menghubungkannya dengan
-kisi-kisi Live Code 2 (LC2) Hacktiv8 FTDS.
+kisi-kisi Live Code2
 
 ## 1. Peta Kisi-Kisi LC2
 
